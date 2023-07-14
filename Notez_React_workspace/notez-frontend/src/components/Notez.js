@@ -1,6 +1,6 @@
+import { Link } from "react-router-dom";
 import { readAll } from "../services/notes.service";
 import { useEffect, useState } from "react";
-
 
 const Notez = () => {
     
@@ -23,8 +23,8 @@ const Notez = () => {
                 <th>Title</th>
                 <th>Body</th>
                 <th>Category</th>
-                <th>Status</th>
                 <th>Urgency</th>
+                <th>Actions</th>
             </tr>
             {
                 notes.map(note => (
@@ -32,8 +32,10 @@ const Notez = () => {
                         <td>{note.title}</td>
                         <td>{note.body}</td>
                         <td>{note.category}</td>
-                        <td>{note.status}</td>
                         <td>{note.urgency}</td>
+                        <td>
+                            <Link to={`/view/${note.id}`}>Edit</Link>
+                        </td>
                     </tr>
                 ))
             }
