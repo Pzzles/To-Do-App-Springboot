@@ -9,7 +9,6 @@ public interface NoteService {
     Note getOne(Long id);
     Note addNote(Note note);
     void removeNote(Long id);
-    void changeNote(Long id);
 
     void removeAll();
 

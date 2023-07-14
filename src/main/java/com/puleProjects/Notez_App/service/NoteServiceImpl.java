@@ -18,7 +18,7 @@ public class NoteServiceImpl implements NoteService{
 
     @Override
     public Note getOne(Long id) {
-        return noteRepo.findById(id).get();
+        return noteRepo.findById(id).orElseThrow(() -> new RuntimeException("Note doesn't exist for ID: " + id));
     }
 
     @Override
@@ -30,11 +30,6 @@ public class NoteServiceImpl implements NoteService{
     public void removeNote(Long id) {
         Note note = getOne(id);
         noteRepo.delete(note);
-    }
-
-    @Override
-    public void changeNote(Long id) {
-
     }
 
     @Override
