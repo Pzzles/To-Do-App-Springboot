@@ -15,12 +15,12 @@ public class NoteController {
     private NoteService noteService;
 
     @GetMapping("/allnotes")
-    public List<Note> getNotes(){
+    public List<Note> getNotes() {
         return noteService.getAll();
     }
 
-    @PostMapping("/note")
-    public Note addNote(@RequestBody Note note){
+    @PostMapping("/newnote")
+    public Note addNote(@RequestBody Note note) {
         return noteService.addNote(note);
     }
 

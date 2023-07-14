@@ -1,9 +1,24 @@
 import {Formik, Form, Field} from "formik";
 import {Editor} from "@tinymce/tinymce-react";
+import * as applicationConstants from "../util/ApplicationConstants";
+import { saveNotes } from "../services/notes.service";
+import { useNavigate } from "react-router-dom";
+
 
 const Add = () => {
-    const handleSubmit = (values) => {
-        console.log('Form values', values);
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (values) => {
+        const response = await saveNotes(values);
+
+        if(!response){
+            throw Error('Error! Cannot store in database');
+        }
+
+        console.log(`Printing response object ${response.data}`);
+    
+        navigate("/");
     }
     return ( 
         <div>
@@ -34,7 +49,7 @@ const Add = () => {
                             return(
                                 <>
                                     <Editor
-                                        apiKey="nbdslexcqp4iy5dcsyg6n6m6p6efhq4sypszl5berku63eqw"
+                                        apiKey= {applicationConstants.tinymce_api_key}
                                         value={form.values.body}
                                         init={{
                                             height: 500,
