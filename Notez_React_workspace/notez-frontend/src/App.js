@@ -14,6 +14,7 @@ function App() {
           <Route path='/mynotes' element={<Notez />} ></Route>
           <Route path='/newnote' element={<Add />} ></Route>
           <Route path='/view/:id' element={<View />} ></Route>
+          <Route path='/editnote/:id' element={<Add />} ></Route>
           <Route path='/' element={<Notez />} ></Route>
     
 

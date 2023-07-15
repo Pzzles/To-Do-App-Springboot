@@ -17,31 +17,34 @@ const Notez = () => {
     }, []);
 
     return (
-        <table border = {1}>
-            <tbody>
-            <tr>
-                <th>Title</th>
-                <th>Body</th>
-                <th>Category</th>
-                <th>Urgency</th>
-                <th>Actions</th>
-            </tr>
-            {
-                notes.map(note => (
-                    <tr key={note.id}>
-                        <td>{note.title}</td>
-                        <td>{note.body}</td>
-                        <td>{note.category}</td>
-                        <td>{note.urgency}</td>
-                        <td>
-                            <Link to={`/view/${note.id}`}>Edit</Link>
-                        </td>
-                    </tr>
-                ))
-            }
-              </tbody>
+        <div>
+            <Link to='/newnote'>New Note</Link>
+            <table border = {1}>
+                <tbody>
+                <tr>
+                    <th>Title</th>
+                    <th>Body</th>
+                    <th>Category</th>
+                    <th>Urgency</th>
+                    <th>Actions</th>
+                </tr>
+                {
+                    notes.map(note => (
+                        <tr key={note.id}>
+                            <td>{note.title}</td>
+                            <td>{note.body}</td>
+                            <td>{note.category}</td>
+                            <td>{note.urgency}</td>
+                            <td>
+                                <Link to={`/view/${note.id}`}>Edit</Link>
+                            </td>
+                        </tr>
+                    ))
+                }
+                </tbody>
 
-        </table>
+            </table>
+        </div>
         
     );
 }

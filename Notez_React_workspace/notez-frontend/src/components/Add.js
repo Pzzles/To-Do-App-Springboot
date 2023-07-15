@@ -1,16 +1,28 @@
 import {Formik, Form, Field} from "formik";
 import {Editor} from "@tinymce/tinymce-react";
 import * as applicationConstants from "../util/ApplicationConstants";
-import { saveNotes } from "../services/notes.service";
-import { useNavigate } from "react-router-dom";
-
+import { readNote, saveNotes, updateNote } from "../services/notes.service";
+import { useNavigate, Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Add = () => {
 
     const navigate = useNavigate();
+    const { id } = useParams();
+    const [title, setTitle] = useState('');
+    const [body, setBody] = useState('');
+    const [category, setCategory] = useState('');
+    const [urgency, setUrgency] = useState('');
+    const [autoIncrementId, setAutoIncrementId] = useState(null);
 
     const handleSubmit = async (values) => {
-        const response = await saveNotes(values);
+
+        let response = null;
+        if(values.id){
+            response = await updateNote(values);
+        }else{
+            response = await saveNotes(values);
+        }
 
         if(!response){
             throw Error('Error! Cannot store in database');
@@ -20,6 +32,29 @@ const Add = () => {
     
         navigate("/");
     }
+
+    const getNoteById = async () => {
+        try{
+              const response = await readNote(id);
+              const existingNote = response.data;
+
+              setTitle(existingNote.title);
+              setBody(existingNote.body);
+              setCategory(existingNote.category);
+              setUrgency(existingNote.urgency);
+              setAutoIncrementId(existingNote.id)
+
+        }catch(error){
+            console.error("Error occurred while retrieving data from API");
+        }
+    }
+
+    useEffect(() => {
+        if(id){
+            getNoteById(id);
+        }
+    })
+
     return ( 
         <div>
             <h1>Add new Note</h1>
@@ -27,17 +62,18 @@ const Add = () => {
             initialValues=
             {
                 {
-                    title: '',
-                    body: '',
-                    category: '',
-                    status: '',
-                    urgency: ''
+                    title: title,
+                    body: body,
+                    category: category,
+                    urgency: urgency,
+                    id: autoIncrementId
                 }
             }
             enableReinitialize
             onSubmit={handleSubmit}
             >
                 <Form>
+                    <Field id="id" name="id" type="hidden"></Field>
                     <label>Title</label>
                     <Field placehlder= "Enter title " name="title">
 
@@ -85,6 +121,7 @@ const Add = () => {
                     <button type="submit">Submit</button>
                 </Form>
             </Formik>
+            <Link to='/mynotes'>Back To Notes</Link>
         </div>
      );
 }
